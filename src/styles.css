@@ -1,1 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --primary-color: #c9f4b1;
+    --secondary-color: #4E937A;
+    --card-background-color: #2B4141;
+    --text-color: #ffffff;
+  }
