@@ -1,1 +1,120 @@
-<p>list-poke works!</p>
+<div class="list-poke-container">
+  <!-- Header -->
+  <div class="header-section">
+    <h1 class="title">Scegli il Tuo Poke Preferito</h1>
+    <p class="subtitle">Scopri le nostre creazioni uniche, preparate con ingredienti freschissimi.</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <p>Caricamento in corso...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button (click)="loadTodos()" class="retry-button">Riprova</button>
+  </div>
+
+  <!-- Lista Poke -->
+  <div *ngIf="!loading && !error" class="poke-grid">
+    <div *ngFor="let poke of pokeList" class="poke-card">
+      <!-- Immagine Poke -->
+      <div 
+        class="poke-image" 
+        [style.background-image]="'url(' + poke.imageUrl + ')'"
+        [attr.alt]="poke.title">
+      </div>
+
+      <!-- Card Content -->
+      <div class="card-content">
+        <!-- Edit Mode -->
+        <div *ngIf="editingId === poke.id" class="edit-form">
+          <input 
+            type="text" 
+            [(ngModel)]="editedPoke.title" 
+            class="edit-input"
+            placeholder="Titolo"
+            [disabled]="updating">
+          <input 
+            type="text" 
+            [(ngModel)]="editedPoke.description" 
+            class="edit-input"
+            placeholder="Descrizione"
+            [disabled]="updating">
+          <input 
+            type="number" 
+            step="0.50"
+            [(ngModel)]="editedPoke.price" 
+            class="edit-input"
+            placeholder="Prezzo"
+            [disabled]="updating">
+          <div class="edit-actions">
+            <button 
+              (click)="updatePoke(poke.id)" 
+              class="save-button"
+              [disabled]="updating || !editedPoke.title.trim()">
+              {{ updating ? 'Salvataggio...' : 'Salva' }}
+            </button>
+            <button 
+              (click)="cancelEdit()" 
+              class="cancel-button"
+              [disabled]="updating">
+              Annulla
+            </button>
+          </div>
+        </div>
+
+        <!-- View Mode -->
+        <div *ngIf="editingId !== poke.id">
+          <h3 class="poke-title">{{ poke.title }}</h3>
+          <p class="poke-description">{{ poke.description }}</p>
+        </div>
+      </div>
+
+      <!-- Card Footer -->
+      <div class="card-footer" *ngIf="editingId !== poke.id">
+        <p class="poke-price">€{{ poke.price.toFixed(2) }}</p>
+        <div class="card-actions">
+          <button 
+            (click)="startEdit(poke)" 
+            class="edit-button"
+            title="Modifica">
+            ✏️
+          </button>
+          <button 
+            (click)="confirmDelete(poke.id)" 
+            class="delete-button"
+            title="Elimina">
+            🗑️
+          </button>
+          <button 
+            class="order-button"
+            (click)="toggleCompleted(poke)"
+            [title]="poke.completed ? 'Disponibile' : 'Ordina Ora'">
+            {{ poke.completed ? '✓' : 'Ordina Ora' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Delete Confirmation Modal -->
+      <div *ngIf="deletingId === poke.id" class="delete-modal">
+        <div class="modal-content">
+          <p>Sei sicuro di voler eliminare "{{ poke.title }}"?</p>
+          <div class="modal-actions">
+            <button 
+              (click)="deletePoke(poke.id)" 
+              class="confirm-delete-button">
+              Elimina
+            </button>
+            <button 
+              (click)="cancelDelete()" 
+              class="cancel-button">
+              Annulla
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

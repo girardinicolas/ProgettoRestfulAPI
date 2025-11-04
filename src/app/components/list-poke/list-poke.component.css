@@ -1,0 +1,369 @@
+.list-poke-container {
+  padding: 6rem 6rem;
+  max-width: 100%;
+  margin: 0;
+  background-color: var(--viridian);
+  min-height: 100vh;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding: 1rem;
+}
+
+.title {
+  color: var(--text-color);
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+  letter-spacing: -0.033em;
+}
+
+.subtitle {
+  color: var(--tea-green);
+  font-size: 1.125rem;
+  font-weight: 400;
+}
+
+.loading-container,
+.error-container {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-color);
+}
+
+.error-container {
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 0.5rem;
+}
+
+.error-message {
+  color: #ff6b6b;
+  margin-bottom: 1rem;
+}
+
+.retry-button {
+  background-color: var(--tea-green);
+  color: var(--dark-slate-gray);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: opacity 0.3s;
+}
+
+.retry-button:hover {
+  opacity: 0.8;
+}
+
+.poke-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+  max-width: 100%;
+}
+
+.poke-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: var(--dark-slate-gray);
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  padding: 0.75rem;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.poke-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.poke-image {
+  width: 100%;
+  aspect-ratio: 1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 0.5rem;
+  margin-bottom: 0.25rem;
+  flex-shrink: 0;
+}
+
+.card-content {
+  flex-grow: 1;
+}
+
+.poke-title {
+  color: var(--text-color);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.poke-description {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  margin-top: 0.25rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.poke-price {
+  color: var(--tea-green);
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.edit-button,
+.delete-button {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: opacity 0.3s;
+  flex-shrink: 0;
+  min-width: auto;
+}
+
+.edit-button:hover,
+.delete-button:hover {
+  opacity: 0.7;
+}
+
+.order-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.25rem;
+  background-color: var(--tea-green);
+  color: var(--dark-slate-gray);
+  border: none;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0 0.75rem;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  min-width: auto;
+  flex-shrink: 1;
+  white-space: nowrap;
+}
+
+.order-button:hover {
+  opacity: 0.8;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--tea-green);
+  border-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.edit-input:focus {
+  outline: none;
+  border-color: var(--tea-green);
+}
+
+.edit-input:disabled {
+  opacity: 0.5;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.save-button,
+.confirm-delete-button {
+  background-color: var(--tea-green);
+  color: var(--dark-slate-gray);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.save-button:hover:not(:disabled),
+.confirm-delete-button:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+.save-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cancel-button {
+  background-color: transparent;
+  color: var(--text-color);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancel-button:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.cancel-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.delete-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--dark-slate-gray);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 400px;
+  text-align: center;
+}
+
+.modal-content p {
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.125rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.confirm-delete-button {
+  background-color: #ff6b6b;
+  color: var(--text-color);
+}
+
+/* Tablet e schermi medi - struttura 2x2 */
+@media (min-width: 480px) and (max-width: 768px) {
+  .poke-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 0.75rem;
+  }
+
+  .poke-card {
+    max-width: 100%;
+  }
+}
+
+/* Mobile molto piccolo - 1 colonna */
+@media (max-width: 479px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .poke-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
+  .poke-card {
+    max-width: 100%;
+  }
+
+  .edit-actions,
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .card-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* Tablet - 3 colonne */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .poke-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+/* Desktop - 4 colonne */
+@media (min-width: 1025px) {
+  .poke-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    max-width: 100%;
+    padding: 1rem;
+  }
+}

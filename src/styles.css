@@ -1,7 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap');
+
 :root {
-    --primary-color: #c9f4b1;
-    --secondary-color: #4E937A;
-    --card-background-color: #2B4141;
+    --primary-color: #FF8C42;
+    --tea-green: #d6ffb7;
+    --viridian: #4e937a;
+    --leafy-green: #48BB78;
+    --dark-slate-gray: #2b4141;
+    --charcoal-gray: #2D3748;
+    --background-light: #FFFFFF;
+    --background-dark: #2D3748;
     --text-color: #ffffff;
+    --card-background-color: var(--dark-slate-gray);
+    --secondary-color: var(--viridian);
+  }
+
+  * {
+    font-family: 'Plus Jakarta Sans', sans-serif;
   }

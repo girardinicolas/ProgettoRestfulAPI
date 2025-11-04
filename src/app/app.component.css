@@ -1,3 +1,14 @@
 .text-primary {
   color: var(--primary-color);
 }
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--viridian);
+}
+
+.main-content {
+  flex: 1;
+}
