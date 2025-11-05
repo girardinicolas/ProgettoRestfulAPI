@@ -1,8 +1,9 @@
 .navbar {
     display: flex;
     align-items: center;
-    padding: 0 48px;
-    /* Spazio orizzontale abbondante ai margini */
+    padding: 0;
+    /* horizontal spacing moved to inner container so divider and content edges match */
+    /* Spazio orizzontale gestito da .navbar-inner */
     height: 72px;
     /* Altezza generosa per la barra */
 }
@@ -22,9 +23,7 @@
     list-style: none;
     display: flex;
     gap: 75px;
-    margin-left: auto;
-    padding-right: 80px;
-    /* Spazio tra gruppo di link e bordo destro */
+    /* removed margin/padding to let .navbar-inner control spacing */
     align-items: center;
 }
 
@@ -54,4 +53,37 @@
     margin-right: 4px;
     vertical-align: middle;
     color: #F1FFCC;
+}
+
+.navbar-divider-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+/* center-aligned inner container whose edges will match the divider */
+.navbar-inner {
+    width: 80%;
+    /* same percent as divider */
+    max-width: 1200px;
+    /* cap the maximum width */
+    margin: 0 auto;
+    /* center horizontally */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* logo at start, links at end */
+}
+
+.navbar-divider {
+    width: 80%;
+    /* adjust percent to control side spacing */
+    max-width: 1200px;
+    /* keep same max-width as .navbar-inner */
+    height: 1px;
+    /* thin line */
+    background: rgba(255, 255, 255, 0.18);
+    /* subtle light line suitable on darker navbar */
+    margin-top: 8px;
+    /* gap below the navbar */
+    border-radius: 2px;
 }

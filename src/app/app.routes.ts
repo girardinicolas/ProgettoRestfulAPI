@@ -5,11 +5,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '../app/components/home/home.component';
 import { ListPokeComponent } from './components/list-poke/list-poke.component';
 import { CreatePokeComponent } from './components/create-poke/create-poke.component';
+import { LoginComponent } from './components/login/login.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // reindirizza alla home di default
   { path: 'home', component: HomeComponent },
   { path: 'list-poke', component: ListPokeComponent },
   { path: 'create-poke', component: CreatePokeComponent },
+  { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: '/home' }
 ];
 
