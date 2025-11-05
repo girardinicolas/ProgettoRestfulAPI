@@ -1,0 +1,31 @@
+<div class="login-box">
+  <h1>🥗 MyPoke</h1>
+  <p>Crea il tuo account per iniziare!</p>
+
+  <form [formGroup]="registerForm" (submit)="onRegister()">
+    <input
+      type="text"
+      formControlName="username"
+      placeholder="Nome utente"
+      required
+    />
+    <input
+      type="email"
+      formControlName="email"
+      placeholder="Email"
+      required
+    />
+    <input
+      type="password"
+      formControlName="password"
+      placeholder="Password"
+      required
+    />
+    <button type="submit">Registrati</button>
+  </form>
+
+  <div class="footer">
+    Hai già un account?
+    <a routerLink="/login">Accedi</a>
+  </div>
+</div>
