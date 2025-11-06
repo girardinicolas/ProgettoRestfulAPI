@@ -1,1 +1,246 @@
-<p>create-poke works!</p>
+<!-- Hero -->
+<section class="hero">
+  <h1>Scegli e Crea la Tua Poke</h1>
+  <p>
+    Ingredienti freschi, immagini sovrapposte in tempo reale. Sì, anche la
+    salsa.
+  </p>
+  <!-- Messaggio di errore -->
+  <div *ngIf="errorMessage()" class="error-message">
+    {{ errorMessage() }}
+  </div>
+</section>
+
+<div class="page">
+  <!-- Anteprima ciotola -->
+  <section class="preview card">
+    <div class="preview-stage">
+      <img class="layer bowl" [src]="bowlImg" alt="bowl" />
+      <ng-container *ngFor="let ing of selectedForRender(); trackBy: trackByFn">
+        <img
+          class="layer"
+          [class.protein-pos-0]="
+            isProtein(ing) && getProteinPosition(ing.id) === 0
+          "
+          [class.protein-pos-1]="
+            isProtein(ing) && getProteinPosition(ing.id) === 1
+          "
+          [class.protein-pos-2]="
+            isProtein(ing) && getProteinPosition(ing.id) === 2
+          "
+          [class.protein-pos-3]="
+            isProtein(ing) && getProteinPosition(ing.id) === 3
+          "
+          [class.condiment]="ing.kind === 'condiment'"
+          [class.sauce]="ing.kind === 'sauce'"
+          [src]="ing.img"
+          [style.zIndex]="
+            isProtein(ing)
+              ? getProteinZIndex(getProteinPosition(ing.id))
+              : ing.z
+          "
+          [style.opacity]="ing.opacity ?? 1"
+          [alt]="ing.name"
+        />
+      </ng-container>
+    </div>
+
+    <div class="preview-actions">
+      <button class="btn ghost" (click)="resetAll()">Reset</button>
+      <button class="btn primary" (click)="toggleSummary()">
+        {{ showSummary() ? "Nascondi riepilogo" : "Mostra riepilogo" }}
+      </button>
+    </div>
+    <div class="summary-panel" *ngIf="showSummary()">
+      <h4>Riepilogo ingredienti</h4>
+      <div class="summary-row">
+        <strong>Base:</strong>
+        <div class="summary-values">
+          <ng-container *ngIf="getBaseIngredient() as base; else noBase">
+            <span class="chip">{{ base.name }}</span>
+          </ng-container>
+          <ng-template #noBase>
+            <span class="empty">Nessuna base selezionata</span>
+          </ng-template>
+        </div>
+      </div>
+      <div class="summary-row" *ngFor="let group of getSummaryGroups()">
+        <strong>{{ group.label }}:</strong>
+        <div class="summary-values">
+          <ng-container *ngIf="getSelectedIngredients(group.kind) as items">
+            <ng-container *ngIf="items.length; else noItems">
+              <span class="chip" *ngFor="let ing of items">{{ ing.name }}</span>
+            </ng-container>
+            <ng-template #noItems>
+              <span class="empty">
+                {{
+                  hasNoneSelected(group.kind)
+                    ? getNoneLabel(group.kind)
+                    : "Nessuno"
+                }}
+              </span>
+            </ng-template>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scelte -->
+  <section class="selectors">
+    <!-- Base -->
+    <div class="group card">
+      <h3>Base</h3>
+      <div class="grid">
+        <button
+          *ngFor="let item of byKind('base')"
+          type="button"
+          class="option"
+          [class.selected]="isSelected(item.id)"
+          (click)="toggle(item.id)"
+        >
+          <img [src]="item.thumb || item.img" [alt]="item.name" />
+          <span>{{ item.name }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Proteine -->
+    <div
+      class="group card"
+      [class.locked]="isCategoryLocked('protein')"
+      [attr.data-locked]="isCategoryLocked('protein')"
+    >
+      <h3>
+        Proteine
+        <span class="count">({{ getSelectedCount("protein") }}/4)</span>
+      </h3>
+      <p class="hint" *ngIf="isCategoryLocked('protein')">
+        Seleziona prima una base.
+      </p>
+      <div class="grid">
+        <button
+          *ngFor="let item of byKind('protein')"
+          type="button"
+          class="option"
+          [class.selected]="isSelected(item.id)"
+          [class.disabled]="
+            isCategoryLocked('protein') ||
+            (!isSelected(item.id) && !canAddMore('protein'))
+          "
+          [disabled]="
+            isCategoryLocked('protein') ||
+            (!isSelected(item.id) && !canAddMore('protein'))
+          "
+          (click)="toggle(item.id)"
+        >
+          <img [src]="item.thumb || item.img" [alt]="item.name" />
+          <span>{{ item.name }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Condimenti -->
+    <div
+      class="group card"
+      [class.locked]="isCategoryLocked('condiment')"
+      [attr.data-locked]="isCategoryLocked('condiment')"
+    >
+      <h3>
+        Condimenti
+        <span class="count">({{ getSelectedCount("condiment") }}/3)</span>
+      </h3>
+      <p class="hint" *ngIf="isCategoryLocked('condiment')">
+        Seleziona prima almeno una proteina.
+      </p>
+      <div class="grid">
+        <button
+          *ngFor="let item of byKind('condiment')"
+          type="button"
+          class="option"
+          [class.selected]="isSelected(item.id)"
+          [class.disabled]="
+            isCategoryLocked('condiment') ||
+            (!isSelected(item.id) && !canAddMore('condiment'))
+          "
+          [disabled]="
+            isCategoryLocked('condiment') ||
+            (!isSelected(item.id) && !canAddMore('condiment'))
+          "
+          (click)="toggle(item.id)"
+        >
+          <img [src]="item.thumb || item.img" [alt]="item.name" />
+          <span>{{ item.name }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Salse -->
+    <div
+      class="group card"
+      [class.locked]="isCategoryLocked('sauce')"
+      [attr.data-locked]="isCategoryLocked('sauce')"
+    >
+      <h3>
+        Salse <span class="count">({{ getSelectedCount("sauce") }}/2)</span>
+      </h3>
+      <p class="hint" *ngIf="isCategoryLocked('sauce')">
+        Seleziona prima almeno un condimento.
+      </p>
+      <div class="grid">
+        <button
+          *ngFor="let item of byKind('sauce')"
+          type="button"
+          class="option"
+          [class.selected]="isSelected(item.id)"
+          [class.disabled]="
+            isCategoryLocked('sauce') ||
+            (!isSelected(item.id) && !canAddMore('sauce'))
+          "
+          [disabled]="
+            isCategoryLocked('sauce') ||
+            (!isSelected(item.id) && !canAddMore('sauce'))
+          "
+          (click)="toggle(item.id)"
+        >
+          <img [src]="item.thumb || item.img" [alt]="item.name" />
+          <span>{{ item.name }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Topping -->
+    <div
+      class="group card"
+      [class.locked]="isCategoryLocked('topping')"
+      [attr.data-locked]="isCategoryLocked('topping')"
+    >
+      <h3>
+        Topping <span class="count">({{ getSelectedCount("topping") }}/1)</span>
+      </h3>
+      <p class="hint" *ngIf="isCategoryLocked('topping')">
+        Seleziona prima almeno una salsa.
+      </p>
+      <div class="grid">
+        <button
+          *ngFor="let item of byKind('topping')"
+          type="button"
+          class="option"
+          [class.selected]="isSelected(item.id)"
+          [class.disabled]="
+            isCategoryLocked('topping') ||
+            (!isSelected(item.id) && !canAddMore('topping'))
+          "
+          [disabled]="
+            isCategoryLocked('topping') ||
+            (!isSelected(item.id) && !canAddMore('topping'))
+          "
+          (click)="toggle(item.id)"
+        >
+          <img [src]="item.thumb || item.img" [alt]="item.name" />
+          <span>{{ item.name }}</span>
+        </button>
+      </div>
+    </div>
+  </section>
+</div>
