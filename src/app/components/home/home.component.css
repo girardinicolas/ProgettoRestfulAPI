@@ -154,18 +154,36 @@
 
 .cards-wrapper {
   position: relative;
-  padding: 0 48px;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.cards-viewport {
+  overflow: hidden;
+  width: min(calc(3 * 360px + 2 * 24px), 100%);
+  margin: 0 auto;
 }
 
 .cards {
   display: flex;
-  gap: 20px;
-  transition: transform 0.5s ease;
+  gap: 24px;
+  justify-content: flex-start;
+  align-items: stretch;
   padding: 20px 0;
+  transition: transform 0.6s ease;
+  will-change: transform;
+}
+
+.cards.no-transition {
+  transition: none;
 }
 
 .card {
-  flex: 0 0 300px; /* larghezza fissa delle card */
+  flex: 0 0 360px;
   background: var(--card-background-color);
   border: 1px solid transparent;
   border-radius: 16px;
@@ -181,36 +199,27 @@
   background-position: center;
 }
 
-.carousel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #ffa600;
-  border: none;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
+
+.carousel-indicators {
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 2;
-  transition: background-color 0.3s ease;
+  gap: 10px;
+  margin-top: 16px;
 }
 
-.carousel-arrow:hover {
-  background: #ff8c00;
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.carousel-arrow.prev {
-  left: 0;
+.indicator.active {
+  background: #ffa600;
+  transform: scale(1.2);
 }
 
-.carousel-arrow.next {
-  right: 0;
-}
 
 .card-body {
   padding: 16px 18px 20px;

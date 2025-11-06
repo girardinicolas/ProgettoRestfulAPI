@@ -5,11 +5,29 @@
     </a>
     <ul class="navbar-menu">
       <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-      <li><a routerLink="/list-poke"
-          routerLinkActive="active">Menù</a></li>
-      <li><a routerLink="/create-poke"
-          routerLinkActive="active">CreaPokè</a></li>
-      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+      <li>
+        <a routerLink="/list-poke" routerLinkActive="active">Menù</a>
+      </li>
+      <li>
+        <a routerLink="/create-poke" routerLinkActive="active">CreaPokè</a>
+      </li>
+      @if (isLoggedIn()) {
+      <li class="navbar-user">
+        <span class="user-chip">
+          {{ authUser()?.username || authUser()?.email }}
+        </span>
+      </li>
+      <li>
+        <a routerLink="/logout" routerLinkActive="active"> Logout </a>
+      </li>
+      } @else {
+      <li>
+        <a routerLink="/login" routerLinkActive="active">Login</a>
+      </li>
+      <li>
+        <a routerLink="/register" routerLinkActive="active">Registrati</a>
+      </li>
+      }
     </ul>
   </div>
 </nav>

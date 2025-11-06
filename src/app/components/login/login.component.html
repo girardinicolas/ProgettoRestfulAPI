@@ -16,7 +16,9 @@
       required
     />
 
-    <div class="error" *ngIf="error">{{ error }}</div>
+    @if (error) {
+      <div class="error">{{ error }}</div>
+    }
 
     <button type="submit">Accedi</button>
   </form>

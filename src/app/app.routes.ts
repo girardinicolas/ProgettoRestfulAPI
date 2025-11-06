@@ -8,13 +8,29 @@ import { CreatePokeComponent } from './components/create-poke/create-poke.compon
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import {
+  requireAuthGuard,
+  requireGuestGuard,
+} from './guards/auth.guards';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // reindirizza alla home di default
   { path: 'home', component: HomeComponent },
   { path: 'list-poke', component: ListPokeComponent },
-  { path: 'create-poke', component: CreatePokeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  {
+    path: 'create-poke',
+    component: CreatePokeComponent,
+    canActivate: [requireAuthGuard],
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [requireGuestGuard],
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [requireGuestGuard],
+  },
   { path: 'logout', component: LogoutComponent },
   { path: '**', redirectTo: '/home' }
 ];

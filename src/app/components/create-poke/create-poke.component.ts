@@ -1,5 +1,10 @@
 import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  CreatePokeRequest,
+  PokeApiService,
+  PokeSummary,
+} from '../../services/poke-api.service';
 
 type Kind = 'base' | 'protein' | 'condiment' | 'sauce' | 'topping';
 
@@ -279,6 +284,10 @@ export class CreatePokeComponent {
   proteinOrder = signal<string[]>([]); // ordine di selezione delle proteine
   errorMessage = signal<string | null>(null); // messaggio di errore temporaneo
   showSummary = signal<boolean>(false);
+  saving = signal<boolean>(false);
+  apiFeedback = signal<{ type: 'success' | 'error'; text: string } | null>(
+    null,
+  );
 
   // Limiti per categoria
   private readonly MAX_LIMITS: Record<Kind, number> = {
@@ -303,6 +312,8 @@ export class CreatePokeComponent {
     { kind: 'sauce', label: 'Salse' },
     { kind: 'topping', label: 'Topping' },
   ] as const;
+
+  constructor(private pokeApiService: PokeApiService) {}
 
   // Collezioni utili
   byKind = (k: Kind) => this.ingredients.filter((i) => i.kind === k);
@@ -568,14 +579,12 @@ export class CreatePokeComponent {
     this.selected.set(new Set());
     this.proteinOrder.set([]);
     this.showSummary.set(false);
+    this.apiFeedback.set(null);
   }
 
   toggleSummary() {
     this.showSummary.update((value) => {
       const next = !value;
-      if (next) {
-        this.savePokeToLocalStorage();
-      }
       return next;
     });
   }
@@ -583,25 +592,92 @@ export class CreatePokeComponent {
   private savePokeToLocalStorage() {
     if (typeof window === 'undefined') return;
 
-    const base = this.getBaseIngredient()?.name ?? null;
-    const noneSelected = this.SUMMARY_GROUPS.reduce<
-      Record<Exclude<Kind, 'base'>, string | null>
-    >((acc, group) => {
-      acc[group.kind] = this.hasNoneSelected(group.kind)
-        ? this.getNoneLabel(group.kind)
-        : null;
-      return acc;
-    }, {} as Record<Exclude<Kind, 'base'>, string | null>);
-    const summary = {
-      base,
-      proteins: this.getSelectedIngredients('protein').map((i) => i.name),
-      condiments: this.getSelectedIngredients('condiment').map((i) => i.name),
-      sauces: this.getSelectedIngredients('sauce').map((i) => i.name),
-      toppings: this.getSelectedIngredients('topping').map((i) => i.name),
-      noneSelected,
-    };
-
+    const summary = this.buildPokeSummary();
     localStorage.setItem('poke-summary', JSON.stringify(summary));
     console.log('Poke salvata in localStorage:', summary);
+  }
+
+  private buildPokeSummary(): PokeSummary {
+    const base = this.getBaseIngredient()?.name ?? null;
+    const proteins = this.getSelectedIngredients('protein').map((i) => i.name);
+    const condiments = this.getSelectedIngredients('condiment').map(
+      (i) => i.name,
+    );
+    const sauces = this.getSelectedIngredients('sauce').map((i) => i.name);
+    const toppings = this.getSelectedIngredients('topping').map((i) => i.name);
+
+    const notes = this.SUMMARY_GROUPS.map((group) => {
+      if (this.hasNoneSelected(group.kind)) {
+        return `${group.label}: ${this.getNoneLabel(group.kind)}`;
+      }
+      return null;
+    })
+      .filter((item): item is string => !!item)
+      .join(' | ');
+
+    return {
+      base,
+      proteins,
+      condiments,
+      sauces,
+      toppings,
+      notes: notes || null,
+    };
+  }
+
+  canSavePoke(): boolean {
+    return !!this.getBaseIngredient();
+  }
+
+  private buildPokeTitle(summary: PokeSummary): string {
+    const baseLabel = summary.base ?? 'Poke personalizzata';
+    const proteinsLabel = summary.proteins.length
+      ? summary.proteins.join(', ')
+      : 'nessuna proteina';
+    return `${baseLabel} con ${proteinsLabel}`;
+  }
+
+  async savePoke() {
+    if (!this.canSavePoke()) {
+      this.errorMessage.set('Seleziona almeno una base per salvare la tua poke.');
+      setTimeout(() => this.errorMessage.set(null), 3000);
+      return;
+    }
+
+    if (this.saving()) {
+      return;
+    }
+
+    const summary = this.buildPokeSummary();
+    const payload: CreatePokeRequest = {
+      userId: 1,
+      title: this.buildPokeTitle(summary),
+      completed: false,
+      summary,
+    };
+
+    this.saving.set(true);
+    this.apiFeedback.set(null);
+
+    try {
+      await this.pokeApiService.createPoke(payload);
+      this.apiFeedback.set({
+        type: 'success',
+        text: 'La tua poke è stata inviata con successo! 🥗',
+      });
+      this.savePokeToLocalStorage();
+    } catch (error) {
+      console.error('Errore nel salvataggio della poke:', error);
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Errore sconosciuto durante il salvataggio della poke';
+      this.apiFeedback.set({
+        type: 'error',
+        text: message,
+      });
+    } finally {
+      this.saving.set(false);
+    }
   }
 }
