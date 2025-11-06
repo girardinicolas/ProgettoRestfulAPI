@@ -12,6 +12,8 @@ export const routes: Routes = [
   { path: 'list-poke', component: ListPokeComponent },
   { path: 'create-poke', component: CreatePokeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'logout', component: LogoutComponent },
   { path: '**', redirectTo: '/home' }
 ];
 
