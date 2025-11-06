@@ -2,7 +2,7 @@
   <h1>🥗 MyPoke</h1>
   <p>Accedi per creare la tua bowl perfetta!</p>
 
-  <form [formGroup]="loginForm" (submit)="onLogin()">
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
     <input
       type="email"
       formControlName="email"
@@ -15,11 +15,14 @@
       placeholder="Password"
       required
     />
+
+    <div class="error" *ngIf="error">{{ error }}</div>
+
     <button type="submit">Accedi</button>
   </form>
 
   <div class="footer">
     Non hai un account?
-    <a href="register">Registrati</a>
+    <a routerLink="/register">Registrati</a>
   </div>
 </div>

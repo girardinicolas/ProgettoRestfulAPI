@@ -6,5 +6,6 @@ import { RegisterComponent } from './components/register/register.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent) },
+  { path: 'logout', loadComponent: () => import('./components/logout/logout.component').then(m => m.LogoutComponent) },
   { path: 'register', loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent) }
 ];

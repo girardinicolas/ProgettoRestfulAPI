@@ -1,1 +1,31 @@
-<p>home works!</p>
+<div class="home-container">
+	<div class="bg-decor"></div>
+
+	<div class="card">
+		<div class="brand">
+			<div class="logo">🥗</div>
+			<div class="title">
+				<h2>MyPoke</h2>
+				<small>Crea la tua bowl perfetta</small>
+			</div>
+		</div>
+
+		<div class="content">
+			<div *ngIf="currentUser; else loggedOut" class="logged">
+		<div class="avatar">{{ initialChar }}</div>
+				<div class="welcome">
+					  <p>Benvenuto, <strong>{{ currentUser.username || currentUser.email }}</strong> 🎉</p>
+					<button class="btn primary" (click)="logout()">Esci</button>
+				</div>
+			</div>
+
+			<ng-template #loggedOut>
+				<p class="muted">Non sei loggato.</p>
+				<div class="actions">
+					<a class="btn outline" routerLink="/login">Accedi</a>
+					<a class="btn" routerLink="/register">Registrati</a>
+				</div>
+			</ng-template>
+		</div>
+	</div>
+</div>

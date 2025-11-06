@@ -1,0 +1,23 @@
+:host {
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	height:100vh;
+	font-family: 'Poppins', sans-serif;
+	background: var(--secondary-color);
+}
+
+.home-container .card {
+	background:#003c3b;
+	padding:2rem;
+	border-radius:12px;
+	color:#fff;
+	box-shadow:0 8px 25px rgba(0,0,0,0.2);
+	width:340px;
+	text-align:center;
+}
+
+.home-container h2 { margin:0 0 0.5rem 0 }
+.home-container .btn { background:#ff7043; border:none; padding:0.6rem 1rem; border-radius:8px; color:#fff; cursor:pointer }
+.home-container .actions { display:flex; gap:12px; justify-content:center; margin-top:8px }
+.home-container a { color:#fff; text-decoration:underline }

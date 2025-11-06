@@ -1,0 +1,32 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.logout-box {
+  background: #003c3b;
+  padding: 2rem;
+  border-radius: 12px;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  width: 320px;
+}
+
+.logout-box h2 {
+  margin: 0 0 0.5rem 0;
+}
+
+.logout-box p {
+  margin: 0 0 1.5rem 0;
+  color: #ddd;
+}
+
+.actions { display:flex; gap:12px; justify-content:center; }
+.btn-logout {
+  background:#ff7043; border:none; padding:0.6rem 1rem; color:#fff; border-radius:8px; cursor:pointer;
+}
+.btn-cancel { color:#fff; text-decoration:underline; align-self:center; padding:0.5rem 0.6rem; }
