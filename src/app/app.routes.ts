@@ -13,4 +13,8 @@ export const routes: Routes = [
     component: CreatePokeComponent,
     pathMatch: 'full',
   },
+  {
+    path: 'list-poke',
+    component: ListPokeComponent
+  },
 ];
