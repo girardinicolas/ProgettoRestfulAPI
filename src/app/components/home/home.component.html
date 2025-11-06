@@ -1,3 +1,91 @@
-<a routerLink="/poke" routerLinkActive="active" class="link">Crea Poke</a>
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">
+      La tua Poke Bowl,
+      <br />
+      come la vuoi tu.
+    </h1>
+    <p class="hero-subtitle">
+      Ingredienti freschissimi per una personalizzazione completa.
+    </p>
+    <button class="cta" (click)="goToCreate()">Inizia a Creare</button>
+  </div>
+  <div class="hero-image-wrapper">
+    <div class="hero-bowl" aria-label="Poke Bowl"></div>
+  </div>
+</section>
 
-<p>home works!</p>
+<section class="features">
+  <h2 class="section-title">Perchè Sceglierci?</h2>
+  <p class="section-subtitle">Scopri i vantaggi che rendono unica ogni nostra
+    poke bowl.</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <img class="feature-icon-img" src="/prodotti-freschi.png"
+        alt="Prodotti freschi" />
+      <h3>Ingredienti Freschissimi</h3>
+      <p>Selezioniamo solo i migliori ingredienti per garantire sapore e
+        qualità.</p>
+    </div>
+    <div class="feature-card">
+      <img class="feature-icon-img" src="/fotochefX.png"
+        alt="Foto chef" />
+      <h3>Lo chef non ha capelli</h3>
+      <p>Rischio capelli nella bowl Zero!</p>
+    </div>
+    <div class="feature-card">
+      <img class="feature-icon-img" src="/editpokebowl.png"
+        alt="Edit poke bowl" />
+      <h3>Personalizzazione Completa</h3>
+      <p>Crea la combinazione perfetta scegliendo tra decine di opzioni.</p>
+    </div>
+  </div>
+</section>
+
+<section class="favorites">
+  <h2 class="section-title">I Nostri Preferiti</h2>
+  <p class="section-subtitle">Dai un'occhiata alle nostre creazioni più
+    popolari, amate dai nostri clienti.</p>
+  <div class="cards-wrapper">
+    <div class="cards"
+      [style.transform]="'translateX(-' + (currentIndex * 320) + 'px)'">
+      <article class="card">
+        <div class="card-img"
+          style="background-image:url('/salmon-sensation.png');"></div>
+        <div class="card-body">
+          <h3>Salmon Sensation</h3>
+          <p>Salmone fresco, avocado, edamame, riso e salsa teriyaki.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-img"
+          style="background-image:url('/tuna-tropicana.png');"></div>
+        <div class="card-body">
+          <h3>Tuna Tropicana</h3>
+          <p>Tonno pinna gialla, mango, alghe wakame, riso venere e salsa
+            ponzu.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-img"
+          style="background-image:url('/vegan-delight.png');"></div>
+        <div class="card-body">
+          <h3>Vegan Delight</h3>
+          <p>Tofu marinato, carote, cetrioli, mais, quinoa e salsa di
+            zenzero.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-img"
+          style="background-image:url('/chickenspecial.png');"></div>
+        <div class="card-body">
+          <h3>Chicken Special</h3>
+          <p>Riso, pollo, cipolla, avocado, pomodorini, mais, sesamo.</p>
+        </div>
+      </article>
+    </div>
+    <button class="carousel-arrow prev" (click)="scrollLeft()">&#10094;</button>
+    <button class="carousel-arrow next"
+      (click)="scrollRight()">&#10095;</button>
+  </div>
+</section>
