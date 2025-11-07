@@ -56,6 +56,7 @@
     letter-spacing: 0.3px;
     padding: 0 4px;
     transition: color 0.2s;
+    height: 10px;
 }
 
 .navbar-menu li a.active {
@@ -88,6 +89,7 @@
     align-items: center;
     justify-content: space-between;
     /* logo at start, links at end */
+    height: 100%;
 }
 
 .navbar-divider {
