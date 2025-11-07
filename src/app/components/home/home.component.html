@@ -25,15 +25,14 @@
       <img
         class="feature-icon-img"
         src="/prodotti-freschi.png"
-        alt="Prodotti freschi"
-      />
+        alt="Prodotti freschi" />
       <h3>Ingredienti Freschissimi</h3>
       <p>
         Selezioniamo solo i migliori ingredienti per garantire sapore e qualità.
       </p>
     </div>
     <div class="feature-card">
-      <img class="feature-icon-img" src="/fotochefX.png" alt="Foto chef" />
+      <img class="feature-icon-img" src="/fotochef.png" alt="Foto chef" />
       <h3>Lo chef non ha capelli</h3>
       <p>Rischio capelli nella bowl Zero!</p>
     </div>
@@ -41,8 +40,7 @@
       <img
         class="feature-icon-img"
         src="/editpokebowl.png"
-        alt="Edit poke bowl"
-      />
+        alt="Edit poke bowl" />
       <h3>Personalizzazione Completa</h3>
       <p>Crea la combinazione perfetta scegliendo tra decine di opzioni.</p>
     </div>
@@ -60,14 +58,12 @@
       <div
         class="cards"
         [class.no-transition]="!isTransitionEnabled()"
-        [style.transform]="trackTransform()"
-      >
+        [style.transform]="trackTransform()">
         @for (card of carouselItems(); track card.id + '-' + $index) {
         <article class="card">
           <div
             class="card-img"
-            [style.background-image]="'url(' + card.image + ')'"
-          ></div>
+            [style.background-image]="'url(' + card.image + ')'"></div>
           <div class="card-body">
             <h3>{{ card.title }}</h3>
             <p>{{ card.description }}</p>
